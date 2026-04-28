@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
@@ -117,6 +117,11 @@ class DriverDeleteView(LoginRequiredMixin, generic.DeleteView):
 class DriverUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Driver
     form_class = DriverLicenseUpdateForm
+
+    def get_success_url(self):
+        return reverse(
+            "taxi:driver-detail",
+            kwargs={"pk": self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
