@@ -2,10 +2,14 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-	<h1>{{ object|yesno:"Update,Create" }} driver: </h1>
-  <form action="" method="post" novalidate>
+	<h1>{{ object|yesno:"Update licence,Create driver" }}: </h1>
+  <div class="d-flex">
+  <form class="mr-3" action="" method="post" novalidate>
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" name="submit" value="Submit">
+    <input class="btn btn-warning" type="submit" name="submit" value="Submit">
+     <a class="btn btn-info" href="{{ next }}">Cancel</a>
   </form>
+
+  </div>
 {% endblock %}

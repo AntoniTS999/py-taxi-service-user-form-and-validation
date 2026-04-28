@@ -97,6 +97,11 @@ class DriverCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = DriverUserForm
     template_name = "taxi/driver_form.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["next"] = self.request.META.get("HTTP_REFERER")
+        return context
+
 
 class DriverDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Driver
@@ -113,8 +118,12 @@ class DriverUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Driver
     form_class = DriverLicenseUpdateForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["next"] = self.request.META.get("HTTP_REFERER")
+        return context
 
-# Jeden do dodawania kierowcy
+
 class AddMeAsDriverView(LoginRequiredMixin, View):
     model = Car
     template_name = "taxi/assign.html"
@@ -125,7 +134,6 @@ class AddMeAsDriverView(LoginRequiredMixin, View):
         return redirect("taxi:car-detail", pk=pk)
 
 
-# Drugi do usuwania kierowcy
 class RemoveMeAsDriverView(LoginRequiredMixin, View):
     model = Car
 
